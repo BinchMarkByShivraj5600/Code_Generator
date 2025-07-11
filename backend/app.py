@@ -9,9 +9,9 @@ app = Flask(__name__)
 frontend_url = os.environ.get('FRONTEND_URL', 'https://code-generator-frontend.onrender.com')
 CORS(app, resources={r"/api/*": {"origins": frontend_url}})
 
-@app.route('/health')
-def health():
-    return jsonify({"status": "ok"})
+@app.route("/")
+def index():
+    return jsonify({"status": "ok"}), 200
 
 
 @app.route('/api/generate', methods=['POST'])
@@ -73,5 +73,7 @@ def generate_code():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An internal server error occurred."}), 500
 
-if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
+
