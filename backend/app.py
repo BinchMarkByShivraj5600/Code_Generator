@@ -6,8 +6,12 @@ from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
-frontend_url = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+frontend_url = os.environ.get('FRONTEND_URL', 'https://code-generator-frontend.onrender.com')
 CORS(app, resources={r"/api/*": {"origins": frontend_url}})
+
+@app.route('/health')
+def health():
+    return jsonify({"status": "ok"})
 
 
 @app.route('/api/generate', methods=['POST'])
